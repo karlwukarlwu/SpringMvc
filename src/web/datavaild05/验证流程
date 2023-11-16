@@ -1,0 +1,11 @@
+1. 在需要验证的Javabean/POJO 的字段上加上相应的验证注解.
+2. 目标方法上,在JavaBean/POJO 类型的参数前, 添加@Valid 注解. 告知SpringMVC
+该bean 是需要验证的
+3. 在@Valid 注解之后, 添加一个Errors 或BindingResult 类型的参数, 可以获取到验证
+的错误信息
+4. 需要使用<form:errors path="email"></form:errors> 标签来显示错误消息, 这个标签，
+需要写在<form:form> 标签内生效.
+5. 错误消息的国际化文件i18n.properties , 中文需要是Unicode 编码，使用工具转码.
+√ 格式: 验证规则.表单modelAttribute 值.属性名=消息信息
+√ NotEmpty.monster.name=\u540D\u5B57\u4E0D\u80FD\u4E3A\u7A7A
+√ typeMismatch.monster.age=\u7C7B\u578B\u4E0D\u5339\u914D

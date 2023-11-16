@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+
+    <!--以前的tomcat配置过滤器-->
+    <!--    <filter>-->
+    <!--        <filter-name>CharacterEncodingFilter</filter-name>-->
+    <!--        <filter-class>web.filter06.MyCharacterFilter</filter-class>-->
+    <!--    </filter>-->
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>CharacterEncodingFilter</filter-name>-->
+    <!--        <url-pattern>/*</url-pattern>-->
+    <!--    </filter-mapping>-->
+
+    <!--    用spring提供的过滤器，优点是更灵活 不是写死在代码里面的 而是在配置文件中-->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+<!--        在这里配置需要的参数 不是再写死在代码里面了-->
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <!--配置HiddenHttpMethodFilter
+1. 作用是 把 以post方式提交的delete和put请求进行转换
+2. 配置url-pattern 是 /* 表示请求都经过 hiddenHttpMethodFilter过滤
+3. 搭配-servlet.xml中的mvc:annotation-driven使用
+-->
+    <filter>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>springDispatcherServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--指定dispatcherServlet读取指定配置文件-->
+        <!--        1. 如果我们没有配置 contextConfigLocation-->
+        <!--        2. 默认按照这样的位置去定位spring配置文件 /WEB-INF/springDispatcherServlet-servlet.xml-->
+        <!--        会去找-servlet结尾的xml文件-->
+        <!--        名字的组成  你上面配置的servlet名字+ -servlet.xml-->
+        <!--        <init-param>-->
+        <!--            <param-name>contextConfigLocation</param-name>-->
+        <!--            这里指向我们的配置文件 配置文件再指向要扫描的包-->
+        <!--            扫描的包下面的类 类中的方法通过注解 从而代替原理servlet的配置-->
+        <!--            以前的 servlet是通过传入路径+参数 通过动态代理+反射调用方法-->
+        <!--            <param-value>classpath:appContext_mvc.txt</param-value>-->
+        <!--        </init-param>-->
+        <!--        在web项目启动时，就自动的加载DispatcherServlet-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springDispatcherServlet</servlet-name>
+        <!--
+        1. 这里我们配置的url-pattern是 / ,表示用户的请求都经过 DispatcherServlet
+        2. 这样配置也这次rest 风格的url请求
+        -->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

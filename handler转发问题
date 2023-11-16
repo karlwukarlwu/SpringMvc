@@ -1,0 +1,24 @@
+handler是默认转发到视图解析器 而不是直接跳转到网页
+跳转到视图解析器以后 由视图解析器进行跳转（这里你自己设定该重定向还是请求转发）
+
+  @RequestMapping(value = "/order")
+    public String order() {
+        System.out.println("=======order()=====");
+        这个是转发到视图解析器 等于是请求转发 最后走的是这个 rd.forward(request, response);
+        return "login";
+
+        这个是请求转发 也是经过视图解析器
+        //请求转发到 /WEB-INF/pages/my_view.jsp
+        //下面的 /WEB-INF/pages/my_view.jsp 被解析成 /springmvc/WEB-INF/pages/my_view.jsp
+        //return "forward:/WEB-INF/pages/my_view.jsp";
+        //return "forward:/aaa/bbb/ok.jsp";
+
+        //这个是重定向 也是经过视图解析器
+        //1. 对于重定向来说，不能重定向到 /WEB-INF/ 目录下
+        //2. redirect 关键字，表示进行重定向
+        //3. /login.jsp 在服务器解析 /springmvc/login.jsp
+        return "redirect:/login.jsp";
+
+        // /WEB-INF/pages/my_view.jsp 被解析 /springmvc/WEB-INF/pages/my_view.jsp
+        //return "redirect:/WEB-INF/pages/my_view.jsp";
+    }

@@ -1,0 +1,21 @@
+加上@ResponseBody 会返回json格式数据
+ @ResponseBody
+    public Dog getJson() {
+
+        //返回对象
+        //springmvc会根据你的设置，转成json格式数据返回
+        Dog dog = new Dog();
+        dog.setName("大黄狗");
+        dog.setAddress("小新的家");
+        return dog;
+
+    }
+
+@PostMapping("/users")
+public ResponseEntity<String> createUser(@RequestBody User user) {
+    // 处理用户数据
+    return ResponseEntity.ok("User created");
+}
+@RequestBody是放在参数上的
+一般的form表格post的不是json格式的数据 是“application/x-www-form-urlencoded”的格式
+这就是为什么我们用了json发送要用@RequestBody注解

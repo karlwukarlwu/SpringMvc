@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="web"/>
+    <!--配置视图解析器[默认视图解析器]-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--配置属性suffix 和 prefix-->
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+        <!--调整优先级-->
+        <property name="order" value="10"/>
+    </bean>
+</beans>
+
+如果不配置这个 会去找默认的视图解析器  以-servlet 结尾的文件
+2. 默认按照这样的位置去定位spring配置文件 /WEB-INF/ 自定义名称 -servlet.xml-->

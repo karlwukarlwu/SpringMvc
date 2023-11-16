@@ -1,0 +1,8 @@
+1) 从本质看，请求响应的方法return "xx", 是返回了一个字符串，其实本质是返回了一个
+ModelAndView 对象，只是默认被封装起来的.
+2) ModelAndView 即可以包含model 数据，也可以包含视图信息
+3) ModelAndView 对象的addObject 方法可以添加key-val 数据，默认在request 域中
+4) ModelAndView 对象setView 方法可以指定视图名称
+6.2 模型数据处理-数据放入session
+6.2.1 需求分析/图解
+● 说

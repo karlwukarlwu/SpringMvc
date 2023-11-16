@@ -1,0 +1,4 @@
+String 用@NotEmpty
+数字用@NotNull搭配@Range
+其他类型的最好用@NotNull
+```

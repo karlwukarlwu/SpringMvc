@@ -1,0 +1,8 @@
+1. Spring MVC 通过HandlerExceptionResolver 处理程序的异常，包括Handler 映射、数据
+绑定以及目标方法执行时发生的异常。
+2. 主要处理Handler 中用@ExceptionHandler 注解定义的方法。
+3. ExceptionHandlerMethodResolver 内部若找不到@ExceptionHandler 注解的话， 会找
+@ControllerAdvice 类的@ExceptionHandler 注解方法, 这样就相当于一个全局异常处理器
+
+局部异常处理优先级高于全局异常处理
+局部异常> 全局异常> SimpleMappingExceptionResolver > tomcat 默认机制

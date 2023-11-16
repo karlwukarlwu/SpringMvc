@@ -1,0 +1,12 @@
+form表单很多时候就是post和get 想得到put/delete 的请求方式需要使用Spring
+提供的HiddenHttpMethodFilter 过滤器进行转换.
+    怎么办 post方法带一个参数（put同理）
+    <form action="/user/1" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <input type="submit" value="delete"/>
+    </form>
+2. HiddenHttpMethodFilter：浏览器form 表单只支持GET 与POST 请求，而DELETE、PUT
+等method 并不支持，Spring 添加了一个过滤器，可以将这些请求转换为标准的http 方
+法，使得支持GET、POST、PUT 与DELETE 请求
+3. HiddenHttpMethodFilter 能对post 请求方式进行转换，因此我们需要特别的注意这一点
+4. 这个过滤器需要在web.xml 中配置

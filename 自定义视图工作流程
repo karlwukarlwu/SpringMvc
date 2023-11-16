@@ -1,0 +1,54 @@
+总结
+    1. 自定义视图: 创建一个View 的bean, 该bean 需要继承自AbstractView, 并实现
+renderMergedOutputModel 方法.
+    2. 并把自定义View 加入到IOC 容器中（加上component注解 并且确保在配置文件夹下扫描的到）
+    3. 自定义视图的视图处理器，使用BeanNameViewResolver， 这个视图处理器也需要配置
+到ioc 容器
+    4. BeanNameViewResolver 的调用优先级需要设置一下，设置order 比Integer.MAX_VAL
+小的值. 以确保其在InternalResourceViewResolver 之前被调用
+
+
+
+工作流程
+视图解析器按优先级从高到低一个一个找
+    找不到就到下一个视图解析器去找
+BeanNameViewResolver 是自定义视图解析器的类
+    ● 自定义视图-工作流程
+    1. SpringMVC 调用目标方法, 返回自定义View 在IOC 容器中的id
+    2. SpringMVC 调用BeanNameViewResolver 解析视图: 从IOC 容器中获取返回id 值对
+    应的bean, 即自定义的View 的对象
+        这里自定义视图解析器会去找你注入的id 并判断是否自定义的那个视图继承了view接口
+
+    3. SpringMVC 调用自定义视图的renderMergedOutputModel 方法渲染视图
+    4. 老韩说明: 如果在SpringMVC 调用目标方法, 返回自定义View 在IOC 容器中的id,
+    不存在， 则仍然按照默认的视图处理器机制处理.
+    ·  为什么默认视图解析器优先级最低 因为这个找不到就会报错 自定义视图解析器找不到是返回null 然后扔给下一个去处理
+        最后找到自定义视图解析器  自定义视图解析器新建一个视图 如果这个视图还是找不到 就报错
+        自定义视图是找id 找不到返回null 默认视图解析器是直接造一个view然后去找 找不到爆404
+
+
+
+调用自定义视图解析器
+@RequestMapping(value = "/buy")
+    public String buy() {
+        System.out.println("------buy()-----");
+        return "hspView";//返回的是视图解析器中的bean的id
+    }
+
+自定义视图解析器的写法
+@Component(value = "hspView")
+public class MyView extends AbstractView {
+    @Override
+    protected void renderMergedOutputModel(Map<String, Object> model,
+                                           HttpServletRequest request,
+                                           HttpServletResponse response) throws Exception {
+        System.out.println("进入到自己的视图..");
+        request.getRequestDispatcher("/WEB-INF/pages/my_view.jsp")
+                .forward(request, response);
+    }
+}
+
+配置
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="99"/>
+    </bean>

@@ -1,0 +1,17 @@
+1、默认配置是都所有的目标方法都进行拦截, 也可以指定拦截目标方法, 比如只是拦截hi
+
+<mvc:interceptor>
+    <mvc:mapping path="/hi"/>
+    <ref bean="myInterceptor01"/>
+</mvc:interceptor>
+2、mvc:mapping 支持通配符, 同时指定不对哪些目标方法进行拦截
+<mvc:interceptor>
+    <mvc:mapping path="/h*"/>
+    <mvc:exclude-mapping path="/hello"/>
+    <ref bean="myInterceptor01"/>
+</mvc:interceptor>
+
+3、拦截器需要配置才生效，不配置是不生效的.
+
+4、如果preHandler() 方法返回了false, 就不会执行目标方法(前提是你的目标方法被拦截
+了), 程序员可以在这里根据业务需要指定跳转页面.

@@ -1,0 +1,53 @@
+在 Web 开发中，`request parameters`或`req.params`通常指的是URL路径中的参数，而不是查询字符串。这些参数是由URL中的动态片段组成的，通常用于RESTful API的路由设计中。
+
+以下是如何在不同后端框架中获取这些参数的示例：
+
+### Node.js 使用 Express 框架：
+
+在 Express 中，你可以通过定义路由的时候，在路径中指定参数名称，然后通过`req.params`对象来访问这些参数。例如：
+
+```javascript
+app.get('/users/:userId/books/:bookId', function (req, res) {
+  const userId = req.params.userId;
+  const bookId = req.params.bookId;
+  res.send(`User Id is ${userId} and Book Id is ${bookId}`);
+});
+```
+
+在这个例子中，`userId`和`bookId`是URL的一部分，例如：`/users/123/books/456`，那么`req.params.userId`将会是`123`，`req.params.bookId`将会是`456`。
+
+### Python 使用 Flask 框架：
+
+在 Flask 中，路由可以通过尖括号`<parameter>`定义参数，并在函数中作为参数获取：
+
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/users/<user_id>/books/<book_id>')
+def get_user_book(user_id, book_id):
+    return f'User Id is {user_id} and Book Id is {book_id}'
+
+if __name__ == '__main__':
+    app.run()
+```
+
+如果你访问`/users/123/books/456`，`user_id`会是`123`，`book_id`会是`456`。
+
+### PHP:
+
+在PHP中，如果你使用了如Apache的mod_rewrite模块或其他URL重写工具来创建了一个友好的URL结构，那么URL路径中的参数通常会被映射到`$_GET`数组中。但这需要在服务器配置或者`.htaccess`文件中相应地配置路由规则。
+
+例如，如果你有一个路由规则将`/users/123/books/456`映射到`index.php`，那么`123`和`456`这样的参数将会被解析到`$_GET`数组中，假设你按照参数名称`userId`和`bookId`进行配置。
+
+然后可以这样访问它们：
+
+```php
+$userId = $_GET['userId'];
+$bookId = $_GET['bookId'];
+```
+
+这种方法具体取决于你的服务器配置。
+
+在不同的框架和语言中，这个过程可能略有不同，但基本概念是一致的：动态的URL参数是作为路由的一部分定义的，并且在请求对象中作为参数被解析。

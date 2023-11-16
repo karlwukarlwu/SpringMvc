@@ -1,0 +1,29 @@
+● 目标方法中指定转发或者重定向
+1. 默认返回的方式是请求转发到视图解析器，然后用视图解析器器进行处理，比如在目标方法中这样写:
+    return"login";
+2. 也可以在目标方法直接指定重定向或转发的url 地址
+3. 如果指定重定向，不能定向到/WEB-INF 目录中，因为这个目录是受保护的，不能直接访问
+    请求转发是tomcat进行定位 重定向是浏览器进行重新定位
+
+     @RequestMapping(value = "/order")
+        public String order() {
+            System.out.println("=======order()=====");
+            这个是转发到视图解析器 走的默认的请求转发
+            return "login";
+
+            这个是请求转发
+            //请求转发到 /WEB-INF/pages/my_view.jsp
+            //下面的 /WEB-INF/pages/my_view.jsp 被解析成 /springmvc/WEB-INF/pages/my_view.jsp
+            //return "forward:/WEB-INF/pages/my_view.jsp";
+            //return "forward:/aaa/bbb/ok.jsp";
+
+            //这个是重定向
+            //1. 对于重定向来说，不能重定向到 /WEB-INF/ 目录下
+            //2. redirect 关键字，表示进行重定向
+            //3. /login.jsp 在服务器解析 /springmvc/login.jsp
+            return "redirect:/login.jsp";
+
+            // /WEB-INF/pages/my_view.jsp 被解析 /springmvc/WEB-INF/pages/my_view.jsp
+            //return "redirect:/WEB-INF/pages/my_view.jsp";
+        }
+

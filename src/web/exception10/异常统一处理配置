@@ -1,0 +1,16 @@
+1. 如果希望对所有异常进行统一处理，可以使用SimpleMappingExceptionResolver
+2. 它将异常类名映射为视图名，即发生异常时使用对应的视图报告异常
+3. 需要在ioc 容器中配置
+
+  <!--配置统一处理异常Bean-->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+            这里配置以后 出现对应的异常就会跳转到视图处理器 找你定义名称的视图
+            想配置什么异常配置什么
+                <!--<prop key="java.lang.ArrayIndexOutOfBoundsException">arrEx</prop>-->
+
+                <!--<prop key="java.lang.Exception">allEx</prop>-->
+            </props>
+        </property>
+    </bean>

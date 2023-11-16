@@ -1,0 +1,5 @@
+`<filter-class>`标签在Java的Web应用程序中，特别是在`web.xml`配置文件中，用于指定一个过滤器(filter)的完全限定名。这意味着它指出了过滤器类的确切位置，在Java包结构中的路径。当你看到如`org.springframework.web.filter.CharacterEncodingFilter`这样的路径，它其实是告诉容器（如Tomcat）去特定的类路径中查找这个类。
+
+Java Web应用程序的类加载器会在应用的`WEB-INF/lib`目录下的jar文件中以及`WEB-INF/classes`目录中搜索这个类。如果`org.springframework.web.filter.CharacterEncodingFilter`类包含在Spring框架的某个jar包中，且这个jar包被放置在了`WEB-INF/lib`目录，那么当应用启动时，容器就能够根据这个完全限定名找到对应的类。
+
+简而言之，类路径是Java用来查找类定义的目录和包的结构，而`<filter-class>`标签中指定的完全限定名是这个搜索过程的起点。
